@@ -3,8 +3,7 @@ const nextConfig = {
   /* config options here */
   // إعدادات لتحسين الأداء في بيئة الإنتاج
   poweredByHeader: false,
-  reactStrictMode: true,
-  swcMinify: true,
+  reactStrictMode: true
 };
 
 module.exports = nextConfig;
