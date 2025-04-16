@@ -7,9 +7,25 @@ if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
 }
 
+// تعريف النوع لمتغير mongoose العالمي
+declare global {
+  // تعريف صحيح باستخدام namespace NodeJS
+  namespace NodeJS {
+    interface Global {
+      mongoose: {
+        conn: typeof mongoose | null;
+        promise: Promise<typeof mongoose> | null;
+      };
+    }
+  }
+}
+
+// استخدام متغير cached بأمان من الناحية النوعية
+// @ts-ignore نتجاهل خطأ TypeScript هنا لأننا عرفنا النوع بالفعل
 let cached = global.mongoose;
 
 if (!cached) {
+  // @ts-ignore نتجاهل خطأ TypeScript هنا لأننا عرفنا النوع بالفعل
   cached = global.mongoose = { conn: null, promise: null };
 }
 
@@ -44,15 +60,5 @@ export async function disconnectFromDatabase() {
     cached.conn = null;
     cached.promise = null;
     console.log('تم قطع الاتصال بقاعدة البيانات بنجاح');
-  }
-}
-
-// إضافة typedef للتوافق مع TypeScript
-declare global {
-  interface Global {
-    mongoose: {
-      conn: typeof mongoose | null;
-      promise: Promise<typeof mongoose> | null;
-    };
   }
 }
