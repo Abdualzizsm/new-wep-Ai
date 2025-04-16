@@ -1,10 +1,11 @@
 // سكريبت لجلب أخبار الذكاء الاصطناعي تلقائياً باستخدام Google Gemini API
 // يمكن تشغيله عبر وظيفة مجدولة على Render
-require('dotenv').config();
-const { fetchLatestAINews } = require('../services/gemini/client');
-const mongoose = require('mongoose');
-const path = require('path');
-const fs = require('fs');
+import dotenv from 'dotenv';
+import { fetchLatestAINews } from '../services/gemini/client';
+import mongoose from 'mongoose';
+
+// تهيئة متغيرات البيئة
+dotenv.config();
 
 // نموذج الأخبار (تحويل من TypeScript إلى JavaScript)
 const NewsSchema = new mongoose.Schema(
