@@ -49,8 +49,10 @@ export async function disconnectFromDatabase() {
 
 // إضافة typedef للتوافق مع TypeScript
 declare global {
-  var mongoose: {
-    conn: typeof mongoose | null;
-    promise: Promise<typeof mongoose> | null;
-  };
+  interface Global {
+    mongoose: {
+      conn: typeof mongoose | null;
+      promise: Promise<typeof mongoose> | null;
+    };
+  }
 }
