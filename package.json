@@ -1,12 +1,13 @@
 {
-  "name": "temp-nextjs-project",
+  "name": "ai-news-portal",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "fetch-news": "node src/scripts/fetchNews.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
@@ -27,5 +28,8 @@
     "eslint-config-next": "15.3.0",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
