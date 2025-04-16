@@ -7,27 +7,29 @@ if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
 }
 
-// تعريف النوع لمتغير mongoose العالمي
+// تعريف النوع للكاش
+interface MongooseCache {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+}
+
+// تعريف للكائن العالمي
 declare global {
-  // تعريف صحيح باستخدام namespace NodeJS
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
     interface Global {
-      mongoose: {
-        conn: typeof mongoose | null;
-        promise: Promise<typeof mongoose> | null;
-      };
+      mongoose: MongooseCache;
     }
   }
 }
 
-// استخدام متغير cached بأمان من الناحية النوعية
-// @ts-ignore نتجاهل خطأ TypeScript هنا لأننا عرفنا النوع بالفعل
-let cached = global.mongoose;
+// حل أكثر توافقية مع TypeScript
+let cached: MongooseCache;
 
-if (!cached) {
-  // @ts-ignore نتجاهل خطأ TypeScript هنا لأننا عرفنا النوع بالفعل
-  cached = global.mongoose = { conn: null, promise: null };
+if (!global.mongoose) {
+  global.mongoose = { conn: null, promise: null };
 }
+cached = global.mongoose;
 
 export async function connectToDatabase() {
   if (cached.conn) {
